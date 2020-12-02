@@ -36,8 +36,8 @@ df_row = pd.concat([df1, df2], keys=['x',
 dict_keys = {'x': df1, 'y': df2}
 df_row = pd.concat(dict_keys)
 # Now retrieve with keys
-print(df_row)
-print(df3)
+# print(df_row)
+# print(df3)
 
 # if: concat along columns
 #df_col = pd.concat([df1, df2], axis=1)
@@ -49,3 +49,35 @@ df_merge_col = pd.merge(df_row, df3, on='id')
 
 # to merge with separate keys: THEN PLZ Specify
 df_merge_difkey = pd.merge(df_row, df3, left_on='id', right_on='id')
+
+
+# ADDING NEW ROW
+add_row = pd.Series(['10', 'X1', 'X2', 'X3'],
+                    index=['id', 'Feature1', 'Feature2', 'Feature3'])
+
+df_add_row = df_merge_col.append(add_row, ignore_index=True)
+
+
+# JOIN
+# full outer join
+print(df1)
+print(df2)
+df_outer = pd.merge(df1, df2, on='id', how='outer')
+# print(df_outer)
+# suffix got appended to the column names to show which column came from which DataFrame
+
+df_suffix = pd.merge(df1, df2, left_on='id', right_on='id',
+                     how='outer', suffixes=('_left', '_right'))
+# print(df_suffix)
+
+# INNER JOIN
+df_inner = pd.merge(df1, df2, on='id', how='inner')
+# print(df_inner)
+
+# RIGHT JOIN
+df_right = pd.merge(df1, df2, on='id', how='right')
+# print(df_right)
+
+# TO join on the indexes or the row labels
+df_index = pd.merge(df1, df2, right_index=True, left_index=True)
+print(df_index)
