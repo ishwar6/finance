@@ -14,7 +14,7 @@ df = yf.download('AAPL',
                  progress=False)
 
 df = df.loc[:, ['Adj Close']]
-# print(df.index)
+print(df.index)
 df.rename(columns={'Adj Close': 'adj_close'}, inplace=True)
 df['simple_rtn'] = df.adj_close.pct_change()
 df['log_rtn'] = np.log(df.adj_close/df.adj_close.shift(1))
