@@ -36,8 +36,16 @@ df_row = pd.concat([df1, df2], keys=['x',
 dict_keys = {'x': df1, 'y': df2}
 df_row = pd.concat(dict_keys)
 # Now retrieve with keys
-print(df_row.loc['y'])
+print(df_row)
+print(df3)
 
-# concat along columns
-df_col = pd.concat([df1, df2], axis=1)
-print(df_col)
+# if: concat along columns
+#df_col = pd.concat([df1, df2], axis=1)
+
+
+# to merge along id
+df_merge_col = pd.merge(df_row, df3, on='id')
+# print(df_merge_col)
+
+# to merge with separate keys: THEN PLZ Specify
+df_merge_difkey = pd.merge(df_row, df3, left_on='id', right_on='id')
