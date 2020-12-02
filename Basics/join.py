@@ -22,7 +22,22 @@ data3 = {
 df3 = pd.DataFrame(data3, columns=['id', 'Feature3'])
 
 
+# LETS CONCAT
+
 df_row = pd.concat([df1, df2])
 # vs
 #df_row = pd.concat([df1, df2], ignore_index=True)
-print(df_row)
+
+
+# instead of removing individual dataset index: use keys
+df_row = pd.concat([df1, df2], keys=['x',
+                                     'y'])
+# or map the keys with dataframes at first place itself instead of in concat args :)
+dict_keys = {'x': df1, 'y': df2}
+df_row = pd.concat(dict_keys)
+# Now retrieve with keys
+print(df_row.loc['y'])
+
+# concat along columns
+df_col = pd.concat([df1, df2], axis=1)
+print(df_col)
