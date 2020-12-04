@@ -27,4 +27,38 @@ df_all_dates = pd.DataFrame(index=pd.date_range(start='1999-12-31',
 
 df = df_all_dates.join(df[['adj_close']], how='left').fillna(
     method='ffill').asfreq('M')
-print(df)
+# print(df)
+
+# Now get the CPI data and merge it with df using date column
+df_cpi = quandl.get(dataset='RATEINF/CPI_USA',
+                    start_date='1999-12-01',
+                    end_date='2010-12-31')
+df_cpi.rename(columns={'Value': 'cpi'}, inplace=True)
+
+"""
+               
+Date          cpi
+1999-12-31  168.300
+2000-01-31  168.800
+2000-02-29  169.800
+2000-03-31  171.000
+"""
+
+
+df_merged = df.join(df_cpi, how='left')
+"""
+print(df_merged)
+
+            adj_close      cpi
+1999-12-31   0.785456  168.300
+2000-01-31   0.792618  168.800
+2000-02-29   0.875700  169.800
+
+"""
+df_merged['simple_rtn'] = df_merged.adj_close.pct_change()
+df_merged['inflation_rate'] = df_merged.cpi.pct_change()
+# print(df_merged.simple_rtn)
+df_merged['real_rtn'] = (df_merged.simple_rtn + 1) * \
+    (df_merged.inflation_rate + 1) - 1
+
+# print(df_merged)
