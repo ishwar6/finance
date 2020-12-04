@@ -3,6 +3,7 @@ import quandl
 from settings import Q_API
 import yfinance as yf
 import numpy as np
+import matplotlib.pyplot as plt
 quandl.ApiConfig.api_key = Q_API
 
 
@@ -22,6 +23,15 @@ df.rename(columns={'Adj Close': 'adj_close'}, inplace=True)
 df['simple_rtn'] = df.adj_close.pct_change()
 df['log_rtn'] = np.log(df.adj_close/df.adj_close.shift(1))
 
+"""
+Date         adj_close  simple_rtn   log_rtn                                        
+1999-12-31   0.785456         NaN       NaN
+2000-01-03   0.855168    0.088754  0.085034
+2000-01-04   0.783068   -0.084310 -0.088078
+
+"""
+
+df_log = df
 # creating a dataframe of only dates as index
 df_all_dates = pd.DataFrame(index=pd.date_range(start='1999-12-31',
                                                 end='2010-12-31'))
@@ -76,3 +86,23 @@ df_merged['real_rtn'] = (df_merged.simple_rtn + 1) * \
 2000-03-31   1.037565  171.200    0.184842        0.008245  0.194611
 
 """
+# print(df)
+
+df_rv = df_log.groupby(pd.Grouper(freq='M')).apply(realized_volatility)
+df_rv.rename(columns={'log_rtn': 'rv'}, inplace=True)
+# print(df_rv)
+
+"""
+        adj_close  simple_rtn        rv
+Date                                       
+1999-12-31   0.785456    0.000000  0.000000
+2000-01-31   3.539399    0.251457  0.251084
+2000-02-29   3.818380    0.149058  0.147840
+
+"""
+
+df_rv.rv = df_rv.rv * np.sqrt(12)
+fig, ax = plt.subplots(2, 1, sharex=True)
+ax[0].plot(df)
+ax[1].plot(df_rv)
+plt.show()
