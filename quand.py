@@ -5,6 +5,11 @@ import yfinance as yf
 import numpy as np
 quandl.ApiConfig.api_key = Q_API
 
+
+def realized_volatility(x):
+    return np.sqrt(np.sum(x**2))
+
+
 df = yf.download('AAPL',
                  start='2000-01-01',
                  end='2010-12-31',
@@ -62,3 +67,12 @@ df_merged['real_rtn'] = (df_merged.simple_rtn + 1) * \
     (df_merged.inflation_rate + 1) - 1
 
 # print(df_merged)
+
+"""
+   adj_close      cpi  simple_rtn  inflation_rate  real_rtn
+1999-12-31   0.785456  168.300         NaN             NaN       NaN
+2000-01-31   0.792618  168.800    0.009118        0.002971  0.012116
+2000-02-29   0.875700  169.800    0.104819        0.005924  0.111364
+2000-03-31   1.037565  171.200    0.184842        0.008245  0.194611
+
+"""
