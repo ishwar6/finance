@@ -21,8 +21,10 @@ df['log_rtn'] = np.log(df.adj_close/df.adj_close.shift(1))
 df_all_dates = pd.DataFrame(index=pd.date_range(start='1999-12-31',
                                                 end='2010-12-31'))
 
+# Just like pandas dropna() method manage and remove Null values from a data frame,
+# fillna() manages and let the user replace NaN values with some value of their own.
+# here M denotes Month end frequency
 
-df = df_all_dates.join(df[['adj_close']], how='left') \
-    .fillna(method='ffill') \
-    .asfreq('M')
-# print(df)
+df = df_all_dates.join(df[['adj_close']], how='left').fillna(
+    method='ffill').asfreq('M')
+print(df)
