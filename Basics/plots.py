@@ -10,8 +10,9 @@ plt.plot(x, x, label='linear')
 # Add a legend
 plt.legend()
 
+
 # Show the plot
-plt.show()
+# plt.show()
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
