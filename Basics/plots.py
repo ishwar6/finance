@@ -21,3 +21,8 @@ ax.scatter([0.3, 3.8, 1.2, 2.5], [11, 25, 9, 26],
            color='darkgreen', marker='^')
 ax.set_xlim(0.5, 4.5)
 plt.show()
+
+fig, ax = plt.subplots(3, 1, figsize=(24, 20), sharex=True)
+df.adj_close.plot(ax=ax[0])
+ax[0].set(title='MSFT time series',
+          ylabel='Stock price ($)')
