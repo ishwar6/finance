@@ -26,3 +26,8 @@ fig, ax = plt.subplots(3, 1, figsize=(24, 20), sharex=True)
 df.adj_close.plot(ax=ax[0])
 ax[0].set(title='MSFT time series',
           ylabel='Stock price ($)')
+df.simple_rtn.plot(ax=ax[1])
+ax[1].set(ylabel='Simple returns (%)')
+df.log_rtn.plot(ax=ax[2])
+ax[2].set(xlabel='Date',
+          ylabel='Log returns (%)')
