@@ -31,3 +31,7 @@ ax[1].set(ylabel='Simple returns (%)')
 df.log_rtn.plot(ax=ax[2])
 ax[2].set(xlabel='Date',
           ylabel='Log returns (%)')
+
+fig, ax = plt.subplots()  # Create a figure containing a single axes.
+ax.plot([1, 2, 3, 4], [1, 4, 2, 3])  # Plot some data on the axes.
+plt.plot([1, 2, 3, 4], [1, 4, 2, 3])  # Matplotlib plot.
