@@ -1,4 +1,4 @@
-from cStringIO import StringIO
+
 from io import StringIO
 
 from pdfminer.converter import TextConverter
@@ -49,16 +49,24 @@ def convert_pdf_to_txt(path):
     codec = 'utf-8'
     laparams = LAParams()
     device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
-    fp = file(path, 'rb')
-    interpreter = PDFPageInterpreter(rsrcmgr, device)
-    password = ""
-    maxpages = 0
-    caching = True
-    pagenos = set()
-    for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password, caching=caching, check_extractable=True):
-        interpreter.process_page(page)
+    with open(path, 'rb') as fp:
+        interpreter = PDFPageInterpreter(rsrcmgr, device)
+        password = ""
+        maxpages = 0
+        caching = True
+        pagenos = set()
+        for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password, caching=caching, check_extractable=True):
+            # print(page)
+            interpreter.process_page(page)
+            break
     fp.close()
     device.close()
+
     str = retstr.getvalue()
     retstr.close()
     return str
+
+
+a = convert_pdf_to_txt(path)
+
+print(len(a))
