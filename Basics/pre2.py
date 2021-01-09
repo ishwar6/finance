@@ -1,6 +1,6 @@
 
 from io import StringIO
-
+import re
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from pdfminer.pdfdocument import PDFDocument
@@ -43,7 +43,7 @@ pages_text = []
 #     pages_text.append(page_text)
 
 
-def convert_pdf_to_txt(path):
+def convert_pdf_to_txt(path, page_no):
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
     codec = 'utf-8'
@@ -55,18 +55,47 @@ def convert_pdf_to_txt(path):
         maxpages = 0
         caching = True
         pagenos = set()
-        for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password, caching=caching, check_extractable=True):
-            # print(page)
-            interpreter.process_page(page)
-            break
+
+        for pageNumber, page in enumerate(PDFPage.get_pages(fp)):
+           # print(pageNumber)
+            if pageNumber == page_no:
+                interpreter.process_page(page)
+                data = retstr.getvalue()
+                # print(data)
+        #data = ""
+        retstr.truncate(0)
+        retstr.seek(0)
     fp.close()
     device.close()
 
     str = retstr.getvalue()
     retstr.close()
-    return str
+    return data
 
 
-a = convert_pdf_to_txt(path)
+a = convert_pdf_to_txt(path, 0)
 
-print(len(a))
+ANSWER = 24
+TOTAL = 56
+list_of_answers = []
+# for a in range(ANSWER - 1, 53):
+#     a = convert_pdf_to_txt(path, a)
+#     b = a.split("Q ")
+#     list_of_answers.append(b[1][2])
+#     c = b[2].split(".Q")
+
+#     list_of_answers.append(c[0][2])
+#     print(list_of_answers)
+
+for a in range(ANSWER - 1, 28):
+    a = convert_pdf_to_txt(path, a)
+    a = re.split('Q [0-9].', a)
+
+    for i in a:
+        print("---------------------")
+        list_of_answers.append(i[0:3])
+
+    print(list_of_answers)
+
+   # print(len(b))
+   # print(a)
