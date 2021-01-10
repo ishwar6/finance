@@ -75,7 +75,7 @@ def convert_pdf_to_txt(path, page_no):
 
 a = convert_pdf_to_txt(path, 0)
 
-ANSWER = 24
+ANSWER = 22
 TOTAL = 56
 list_of_answers = []
 # for a in range(ANSWER - 1, 53):
@@ -92,9 +92,10 @@ for a in range(ANSWER - 1, 28):
     a = convert_pdf_to_txt(path, a)
     a = re.split('Q [0-9].', a)
 
-    for i in a:
+    for i in range(1, len(a)):
         print("---------------------")
-        list_of_answers.append(i[0:3])
+        print(a[i])
+        list_of_answers.append(a[i][0:3])
 
     print(list_of_answers)
 
