@@ -87,6 +87,7 @@ list_of_answers = []
 #     list_of_answers.append(c[0][2])
 #     print(list_of_answers)
 
+
 for a in range(ANSWER - 1, 28):
     a = convert_pdf_to_txt(path, a)
     a = re.split('Q [0-9].', a)
